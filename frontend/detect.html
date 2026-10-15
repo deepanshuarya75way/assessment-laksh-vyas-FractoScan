@@ -605,7 +605,24 @@
         align-items: center;
         gap: 0.5rem;
       }
+      .findings-summary{
+        display:none;
+        background:white;
+        border-radius:var(--radius-md);
+        padding:1rem 1.25rem;
+        border-left: 4px solid var(--primary-dark);
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        color: var(--primary-dark);
+        line-height : 1.5;
+      }
+      .finding-summary .summary-note{
+      display : block;
+      margin-top:0.4rem;
+        font-size : 0.85rem;
+        color:var(--text-light);
+      }
 
+      
       /* Grad-CAM container styling */
       .gradcam-section {
         background: rgba(0, 98, 155, 0.03);
@@ -755,14 +772,15 @@
                   <div class="visualization-container">
                     <div class="visualization-panel">
                       <div class="result-section-title">
-                        <i class="fas fa-image"></i> Original Image
-                      </div>
-                      <div class="result-display">
-                        <img id="original-image" src="#" alt="Original X-Ray" />
-                      </div>
-                    </div>
-                    <div class="visualization-panel">
-                      <div class="result-section-title">
+                       <div class="result-section">
+                        <div class="result-section-title">
+                          <i class="fas fa-clipboard-list"></i> Fracture Analysis
+                        </div>
+                        <div id="finding-summary" class="finding-summary" role="status" aria-live="polite">
+                        </div>
+                        <div class="detection-list-container" id="detection-list">
+                        </div>
+                        
                         <i class="fas fa-search"></i> Detection Result
                       </div>
                       <div class="result-display">

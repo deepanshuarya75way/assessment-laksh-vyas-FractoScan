@@ -246,10 +246,36 @@ document.addEventListener('DOMContentLoaded', function() {
             filePreview.style.display = 'flex';
         }
     }
-    
+    function getTopFinding(detections){
+        return detections
+            .map((d,i) => ({cls : String(d.class),pct: Math.roud(d.confidence * 100),i}))
+            .sort((a,b) => b.pct - a.pct || a.cls.localeCompare(b.cls) || a.i - b.i)[0];
+    }
+    function renderSummary(detections){
+        const el = documnet.getElementById('findings-summary');
+        el.textContent ='';
+        if(detections || detections.length === 0){
+            el.style.display ='none';
+            return;
+        }
+        const count = detections.length;
+        const top = getTopFinding(detection);
+
+        const main = document.createElement('div');
+        const strong = document.createElement('strong');
+        strong.textContent = count === 1? '1 finding detected' : '${count} findings detected';
+        main.append(strong, '-highest confidence: ${top.cls} (${top.pct}%)');
+
+        const note = doc
+        note.className = 'summary-note';
+        note.textContent = 'AI - generated';
+        el.append(main, note);
+        el.style.display = 'block';
+    }
     // Display detection items
     function displayDetections(detections) {
         detectionList.innerHTML = '';
+        renderSummary(detections);
         
         if (!detections || detections.length === 0) {
             detectionList.innerHTML = '<div class="detection-item"><div class="detection-content"><h4>No fractures detected</h4><p>The AI did not detect any fractures in this image.</p></div></div>';
